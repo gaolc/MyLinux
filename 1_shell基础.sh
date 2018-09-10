@@ -96,4 +96,6 @@ shift
 let i++
 done
 
+#linux根目录满了，怎样快速查看是哪个文件占用空间大
+du -ah --max-depth=1   
 
