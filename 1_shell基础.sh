@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#SystemVersion:CentOS 6.5
 #判断变量是数字还是字符串
 #~ 是正则匹配操作符
 read -p 'please input :' DIR_DATE
