@@ -28,7 +28,7 @@ echo "123abc456aababc789abcqweabcrtyabc" \
 #BEGIN{FS="[/ ]+";OFS=" -- "} 是指把一个或多个空格或者/作为读取文本时的字段分隔符,把" -- "作为执行完后的输出字段分隔符
 #$2~"eth"{$3~"NO-CARRIER"?a=0:a=1}找到第二个字段匹配到"eth"的行并判断第三个字段是否匹配到"NO-CARRIER",匹配到则a=0,否则a=1
 #$NF~"eth"&&a将最后一个字段和a相与,结果为真则打印最后一个字段和第三个字段,否则不处理
-ip addr show | awk 'BEGIN{FS="[/ ]+";OFS=" -- "}$2~"eth"{$3~"NO-CARRIER"?a=0:a=1}$NF~"eth"&&a{print $NF "\t" $3}'
+ip addr show | awk 'BEGIN{FS="[/ ]+";OFS=" -- "}$2~"eth"{$3~"NO-CARRIER"?a=0:a=1}$NF~"eth"&&a{print $NF，$3}'
 
 #shell程序中有一个变量a=15，你在awk程序中直接使用变量a是不行的，而你用awk -v b=a， 这样在AWK程序中就可以使用变量b了！
 hello=1
