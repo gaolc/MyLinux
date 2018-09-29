@@ -60,21 +60,26 @@ ${file/dir/path}：将第一个dir 替换为path：/path1/dir2/dir3/my.file.txt
 ${file//dir/path}：将全部dir 替换为 path：/path1/path2/path3/my.file.txt 
 
 
-1. find ./ -name "test.*" -exec mv {} {}.bak \;
-这个是最简单的了,但是有一点不好的是只能在后面加个后缀
-2. find ./ -name "*.txt" | xargs -i mv {} {}.bak 
-一样的道理
-3.find ./ -name "*b
-ak" | awk '{printf("mv %s \t %s \n",$1,$1".bak")}' |sh
+1. 这个是最简单的了,但是有一点不好的是只能在后面加个后缀
+find ./ -name "test.*" -exec mv {} {}.bak \;
+find ./ -name hello.sh -exec cp {} {}.bak \;
+find -name "hello.sh" -exec rm -rf {} \;
+2. 一样的道理
+find ./ -name "*.txt" | xargs -i mv {} {}.bak 
+
+3.find ./ -name "*bak" | awk '{printf("mv %s \t %s \n",$1,$1".bak")}' |sh
 awk 里面可以自由发挥 单纯的对文件名处理来说 还不是awk的强项
 4.那就来sed吧
 find ./ -name xxx | sed ''s/XXX/mv xxx xxxxx/'' |sh
 效率 注意效率!
 创建进程的消耗是很大的,所以能用xargs的时候就不要用 |sh
 ls -1|sed ''s/.old$//''|xargs -I {} mv {}.old {}
-
 ls -1|xargs -i mv {} {}.bak
 ls -1|sed "s/.bak//g"| xargs -i mv {}.bak {}
+ls -1 |grep "sh$"|xargs -i cp {} {}.bak
+#find查找指定深度
+find ./ -maxdepth 2 -name "*.sh"
+find ./ -maxdepth 2 -name "*.sh" -exec cp {} {}.bak \;
 
 awk -v OFS="\t" '{$1=$1}1' inputfile
 awk '{for(i=0;i++<NF;){a=i==NF?$i"\n":$i"\t";printf a}}' inputfile
@@ -97,5 +102,31 @@ let i++
 done
 
 #linux根目录满了，怎样快速查看是哪个文件占用空间大
-du -ah --max-depth=1   
+du -ah --max-depth=1  
+
+#直接创建数组
+names=(gao long cheng)
+echo ${#names[@])} 
+#通过命令结果获取数组
+names=($(echo 'w h t '))
+echo ${#names[@]}
+#指定分割符号，用sed替换就好
+namestring="w#h#t"
+names=($(echo ${namestring}|sed "s/#/ /g"))
+echo ${#names[@]}
+#获取数组索引列表
+echo ${!names[*]}
+#访问数组元素
+echo ${names[2]}
+#颜色输出
+printf  "\033[31mglc love wht\033[0m\n"
+
+#将多行输出转换为单行输出
+$ cat example.txt # 样例文件
+1 2 3 4 5 6 
+7 8 9 10 
+11 12
+cat example.txt | xargs 
+1 2 3 4 5 6 7 8 9 10 11 12
+#cat example.txt |xargs -n 3
 
