@@ -84,12 +84,22 @@ find ./ -maxdepth 2 -name "*.sh" -exec cp {} {}.bak \;
 awk -v OFS="\t" '{$1=$1}1' inputfile
 awk '{for(i=0;i++<NF;){a=i==NF?$i"\n":$i"\t";printf a}}' inputfile
 awk -F ","  -v OFS="\t" '{$1=$1 print }' inputfile
-
+############################
 lsblk -l  #查看块设备使用
 df -T -h  #产看设别类型
 df -i     #产看Inodes节点使用情况
 mount /dev/sr0 /mnt/cdrom
 umount /mnt/cdrom
+#########磁盘分区
+fdisk -l 
+fdisk /dev/sdb
+依次 输入 n  回车， p  回车， 1 回车，直接回车，直接回车 
+输入 p  打印分区表
+输入 w  执行写入操作以保存刚才所做的分区。
+#格式化
+mkfs -t ext4 /dev/sdb1
+#挂载
+mount /dev/sdb1 /root/home
 
 
 #shift 用于对参数的移动(左移)
@@ -129,4 +139,12 @@ $ cat example.txt # 样例文件
 cat example.txt | xargs 
 1 2 3 4 5 6 7 8 9 10 11 12
 #cat example.txt |xargs -n 3
+
+#cut -d '分割符' -f fields 
+#cut -c : 以字符串的单位取出固定字符区间
+cat /etc/passwd| cut -d ':' -f 3,5
+echo '123456789' |cut -c 2-5
+echo '123456789' |cut -c 2-
+
+#双向重定向tee
 
