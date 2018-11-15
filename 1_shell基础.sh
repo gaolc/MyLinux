@@ -130,3 +130,6 @@ cat example.txt | xargs
 1 2 3 4 5 6 7 8 9 10 11 12
 #cat example.txt |xargs -n 3
 
+
+#Account locked due to 26 failed logins
+pam_tally2 --user=username --reset
