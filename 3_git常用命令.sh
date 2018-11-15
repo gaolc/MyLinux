@@ -24,6 +24,7 @@ git config --global core.quotepath false
 #warning: LF will be replaced by CRLF in README.md.
 git config --global core.aotucrlf false
 
+
 #创建版本库
 git clone <url>    #克隆远程版本库
 git init           #初始化本地版本库
@@ -186,5 +187,10 @@ git config --global alias.unstage 'reset HEAD'
 #当你敲入命令：  git unstage test.py 实际上Git执行的是：  git reset HEAD test.py
 git config --global alias.last 'log -1' 
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit" 
+
+git branch --set-upstream dev origin/<branch> 
+
+
+
 
 
