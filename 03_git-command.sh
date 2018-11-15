@@ -190,7 +190,10 @@ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Crese
 
 git branch --set-upstream dev origin/<branch> 
 
-
+#git之https或http方式设置记住用户名和密码的方法
+git config --global credential.helper cache            #设置记住密码（默认15分钟
+git config credential.helper 'cache --timeout=3600'    #这样就设置一个小时之后失效
+git config --global credential.helper store            #长期存储密码
 
 
 
