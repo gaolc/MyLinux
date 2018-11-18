@@ -117,7 +117,7 @@ git checkout -b name         #创建+切换分支
 git merge name               #合并某分支到当前分支
 git branch -d name           #删除分支
 
-git stash                    #Git还提供了⼀一个stash功能，可以把当前⼯工作现场“储藏”起来，等以后恢复现场后 继续⼯工作： 
+git stash                    #Git还提供了一个stash功能，可以把当前工作现场“储藏”起来，等以后恢复现场后 继续工作： 
 git stash list               
 #Git把stash内容存在某个地方了，但是需要恢复一下，有两个办法： 一是用git stash apply恢复，但是恢复后，stash内容并不删除，你需要用git stash drop来删除；
 #另一种方式是用git stash pop，恢复的同时把stash内容也删了：  
