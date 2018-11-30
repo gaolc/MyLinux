@@ -21,3 +21,21 @@ echo $time | awk '{split($0,a,":");print a[1],a[2],a[3]}'
 #substr(s,p) 返回字符串s中从p开始的后缀部分
 #substr(s,p,n) 返回字符串s中从p开始长度为n的后缀部分
 echo "123" | awk '{print substr($0,1,1)}'
+
+#awk求和
+cat data
+1  2
+2  2
+3  2
+cat data|awk '{sum+=$2} END {print "Sum = ", sum}'
+#awk求平均
+cat data|awk '{sum+=$1} END {print "Average = ", sum/NR}'
+#分组求和
+cat file1
+a 1
+b 3
+c 2
+b 5
+a 3 
+cat file1 |awk '{a[$1]+=$2;}END{for(i in a){print i,a[i];}}'
+
