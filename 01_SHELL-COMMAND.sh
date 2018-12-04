@@ -150,4 +150,7 @@ echo '123456789' |cut -c 2-5
 echo '123456789' |cut -c 2-
 
 #双向重定向tee
-
+#-a代表append,也就是将user添加到用户组groupA,groupB,groupC中,而不必离开其他用户组
+usermod -a -G groupA,groupB,groupC user
+#查看用户所在组
+groups user
