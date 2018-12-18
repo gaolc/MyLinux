@@ -39,3 +39,4 @@ b 5
 a 3 
 cat file1 |awk '{a[$1]+=$2;}END{for(i in a){print i,a[i];}}'
 
+cat data|awk '{a+=$1;b+=$2}END{ print "a:"a " b:"b}'
