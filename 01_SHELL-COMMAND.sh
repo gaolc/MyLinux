@@ -85,6 +85,7 @@ awk -v OFS="\t" '{$1=$1}1' inputfile
 awk '{for(i=0;i++<NF;){a=i==NF?$i"\n":$i"\t";printf a}}' inputfile
 awk -F ","  -v OFS="\t" '{$1=$1 print }' inputfile
 ############################
+blkid     #分区UUID
 lsblk -l  #查看块设备使用
 df -T -h  #产看设别类型
 df -i     #产看Inodes节点使用情况
