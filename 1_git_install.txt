@@ -1,0 +1,82 @@
+
+1. nexus安装
+官网
+https://my.sonatype.com/
+
+unzip nexus-2.14.8-01-bundle.zip
+
+2. 添加到环境变量PATH
+../nexus-2.14.8-01-bundle/nexus-2.11.4-01/bin
+
+添加以下变量：
+NEXUS_HOME=/usr/local/nexus/nexus
+PLATFORM=linux-x86-64
+PLATFORM_DIR="${NEXUS_HOME}/bin/jsw/${PLATFORM}"
+
+修改以下变量：
+WRAPPER_CMD="${PLATFORM_DIR}/wrapper"
+WRAPPER_CONF="${PLATFORM_DIR}/../conf/wrapper.conf"
+PIDDIR="${NEXUS_HOME}"
+
+
+3. 配置java路径，找到bin/jsw/conf/wrapper.conf
+wrapper.java.command=C:\Program Files\Java\jdk1.8.0_20\bin\java
+
+nexus install 
+
+nexus start
+
+默认端口8081
+http://10.1.1.254:8081/nexus
+
+http://localhost:8081/nexus/#welcome
+
+4. 修改本地或者服务器maven配置文件使用私服
+
+找到maven安装路径下的conf/settings.xml文件，修改如下
+
+找到<mirrors>节点，增加
+
+ <mirror>
+                <id>nexus</id>
+                <mirrorOf>*</mirrorOf>
+                <url>http://ip:8081/nexus/content/repositories/releases/</url>
+         </mirror>
+
+找到<profiles>节点增加：
+
+ <profile>  
+        <id>nexus</id>  
+        <repositories>  
+            <repository>  
+                <id>nexus</id>  
+                <name>Nexus</name>  
+                <url>http://ip:8081/nexus/content/groups/public/</url>  
+                <releases>  
+                    <enabled>true</enabled>  
+                </releases>  
+                <snapshots>  
+                    <enabled>true</enabled>  
+                </snapshots>  
+            </repository>  
+        </repositories>  
+        <pluginRepositories>  
+            <pluginRepository>  
+                <id>nexus</id>  
+                <name>Nexus</name>  
+                <url>http://ip:8081/nexus/content/groups/public/</url>  
+                <releases>  
+                    <enabled>true</enabled>  
+                </releases>  
+                <snapshots>  
+                    <enabled>true</enabled>  
+                </snapshots>  
+            </pluginRepository>  
+        </pluginRepositories>  
+    </profile>
+
+在</profiles>之后增加
+
+<activeProfiles>
+          <activeProfile>nexus</activeProfile>
+       </activeProfiles>
