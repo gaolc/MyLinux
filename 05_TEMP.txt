@@ -71,3 +71,18 @@ git remote set-url origin remote_git_address
 remote_git_address更换成你的新的仓库地址。
 
 第二种切换remote_url的方法更直接，直接更改.git/conf配置文件里的ip地址就行。
+
+gitlab 作为代码仓库存储， 可能会由于各种原因问题，对项目进行大批量的迁移；
+怎么迁移更快呢？ 下面 orange 就给你说说，让你实现批量项目快速迁移；
+（1）在原来的代码或项目存储的位置进行打包(/vat/opt/gitlab/git-data/repositories);
+# tar czvf group_xxx.tar.gz   group_xxx/*
+(2) 将打包好的项目组迁移到目的地，进行代码还原，并显示在另一个gitlab；
+# cp group_xxx.tar.gz /var/opt/gitlab/git-data/repository-import-2018-8-09/
+ 
+(3) 创建目录用于存放 group_xxx包的相关project并解压到该目录
+# mkdir /var/opt/gitlab/git-data/repository-import-2018-8-09/new_group -p
+# tar xf group_xxx.tar.gz -C /var/opt/gitlab/git-data/repository-import-2018-8-09/new_group
+(4) 解决目录权限问题
+# chown -R git.git  /var/opt/gitlab/git-data/repositor*
+(5) 开始执行代码或项目迁移
+# gitlab-rake gitlab:import:repos['/var/opt/gitlab/git-data/repository-import-2018-8-09/']
