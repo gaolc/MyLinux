@@ -21,3 +21,33 @@ echo $time | awk '{split($0,a,":");print a[1],a[2],a[3]}'
 #substr(s,p) 返回字符串s中从p开始的后缀部分
 #substr(s,p,n) 返回字符串s中从p开始长度为n的后缀部分
 echo "123" | awk '{print substr($0,1,1)}'
+
+#列求和： cat tmp.txt |awk '{a+=$1}END{print a}' 
+#列求平均值：cat you.txt |awk '{a+=$1}END{print a/NR}'
+#列求最大值：cat you.txt |awk 'BEGIN{a=0}{if ($1>a) a=$1 fi}END{print a}'
+
+#awk 某一列求和
+#awk '{sum+=$1}END{print sum}
+#exp: 计算第二列的和 ，out: 11
+cat << EOF | awk '{sum+=$2}END{print sum}' 
+2019-02-01  1  10 
+2019-02-01  1  10
+2019-02-01  1  10
+2019-02-02  2  20
+2019-02-02  2  20
+2019-02-02  2  20
+2019-02-02  2  20
+EOF 
+
+
+#awk 以第一列分组，第二、三列求和
+awk '{s[$1] += $2; a[$1] += $3}END{ for(i in s){  print i,s[i],a[i]}}'
+cat << EOF | awk '{s[$1] += $2; a[$1] += $3}END{ for(i in s){  print i,s[i],a[i]}}' 
+2019-02-01  1  10 
+2019-02-01  1  10
+2019-02-01  1  10
+2019-02-02  2  20
+2019-02-02  2  20
+2019-02-02  2  20
+2019-02-02  2  20
+EOF

@@ -1,0 +1,88 @@
+rsync+inotify
+https://www.cnblogs.com/kevingrace/p/6001252.html
+
+1). 从原地址克隆一份裸版本库，比如原本托管于 GitHub。
+
+git clone –bare git://github.com/username/project.git 
+–bare 创建的克隆版本库都不包含工作区，直接就是版本库的内容，这样的版本库称为裸版本库。
+
+2). 然后到新的 Git 服务器上创建一个新项目，比如 GitCafe。
+
+3). 以镜像推送的方式上传代码到 GitCafe 服务器上。
+
+cd project.git 
+git push --mirror git@gitcafe.com/username/newproject.git 
+--mirror 克隆出来的裸版本对上游版本库进行了注册，这样可以在裸版本库中使用git fetch命令和上游版本库进行持续同步。
+
+4). 删除本地代码
+
+cd .. 
+rm -rf project.git 
+5). 到新服务器 GitCafe 上找到 Clone 地址，直接 Clone 到本地就可以了。
+
+git clone git@gitcafe.com/username/newproject.git 
+这种方式可以保留原版本库中的所有内容f
+--------------------- 
+作者：GabrielXPanda 
+来源：CSDN 
+原文：https://blog.csdn.net/nathan1987_/article/details/78529357 
+版权声明：本文为博主原创文章，转载请附上博文链接！
+
+git clone -bare https://github.com/glory0510/MyLinux.git
+
+git clone --bare https://github.com/glory0510/MyLinux.git
+
+
+git remote set-url origin  root@10.1.1.201:/root/git-test/MyLinux.git
+
+local#git clone --bare https://github.com/glory0510/MyLinux.git
+server#mkdir MyLinux.git
+server#git init --bare MyLinux.git
+local##git remote set-url origin root@10.1.1.201:/root/git-test/MyLinux.git
+local##git push --mirror root@10.1.1.201:/root/git-test/MyLinux.git
+1、建立新仓库
+
+1). 从原地址克隆一份裸版本库，比如原本托管于 GitHub，或者是本地的私有仓库
+git clone --bare git://192.168.10.XX/git_repo/project_name.git
+2). 然后到新的 Git 服务器上创建一个新项目，比如 GitCafe，亦或是本地的私有仓库，如192.168.20.XX
+su - git
+cd /path/to/path/
+mkdir new_project_name.git
+git init --bare new_project_name.git
+3). 以镜像推送的方式上传代码到 GitCafe 服务器上。
+请确保已经添加了公钥到新的机器上
+cd project_name.git
+git push --mirror git@192.168.20.XX/path/to/path/new_project_name.git
+4). 删除本地代码
+cd ..
+rm -rf project_name.git
+5). 到新服务器上找到 Clone 地址，直接Clone到本地就可以了。
+git clone git@192.168.20.XX/path/to/path/new_project_name.git
+这种方式可以保留原版本库中的所有内容。
+
+2、切换remote_url
+
+先查看remote的名字
+
+git branch -r
+假设你的remote是origin，用git remote set_url 更换地址
+
+git remote set-url origin remote_git_address
+remote_git_address更换成你的新的仓库地址。
+
+第二种切换remote_url的方法更直接，直接更改.git/conf配置文件里的ip地址就行。
+
+gitlab 作为代码仓库存储， 可能会由于各种原因问题，对项目进行大批量的迁移；
+怎么迁移更快呢？ 下面 orange 就给你说说，让你实现批量项目快速迁移；
+（1）在原来的代码或项目存储的位置进行打包(/vat/opt/gitlab/git-data/repositories);
+# tar czvf group_xxx.tar.gz   group_xxx/*
+(2) 将打包好的项目组迁移到目的地，进行代码还原，并显示在另一个gitlab；
+# cp group_xxx.tar.gz /var/opt/gitlab/git-data/repository-import-2018-8-09/
+ 
+(3) 创建目录用于存放 group_xxx包的相关project并解压到该目录
+# mkdir /var/opt/gitlab/git-data/repository-import-2018-8-09/new_group -p
+# tar xf group_xxx.tar.gz -C /var/opt/gitlab/git-data/repository-import-2018-8-09/new_group
+(4) 解决目录权限问题
+# chown -R git.git  /var/opt/gitlab/git-data/repositor*
+(5) 开始执行代码或项目迁移
+# gitlab-rake gitlab:import:repos['/var/opt/gitlab/git-data/repository-import-2018-8-09/']
