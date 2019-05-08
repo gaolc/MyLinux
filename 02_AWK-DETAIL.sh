@@ -51,3 +51,8 @@ cat << EOF | awk '{s[$1] += $2; a[$1] += $3}END{ for(i in s){  print i,s[i],a[i]
 2019-02-02  2  20
 2019-02-02  2  20
 EOF
+
+#第一个例子在整个文档中匹配test，匹配的都被替换成mytest。
+#第二个例子在整个文档的第一个域中匹配，所有匹配的都被替换成mytest
+$ awk '{ gsub(/test/, "mytest"); print }' testfile
+$ awk '{ gsub(/test/, "mytest", $1); print }' testfile
