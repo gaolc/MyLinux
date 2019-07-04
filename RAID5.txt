@@ -1,0 +1,104 @@
+RAID 5 搭建
+#fdisk /dev/sdb                                                                           
+#mdadm -C -v /dev/md5 -l 5 -n 4 -x 1 /dev/sd[b-f]1                               //创建raid5
+#mkfs -t xfs -f /dev/md5                                                                         //格式化   -f 强制格式化
+#mkdir /mnt/raid5
+#mount /dev/md5 /mnt/raid5                                                                 //挂载
+#mdadm -Dsv > /etc/mdadm.conf                                                          //生产配置文件
+#echo "/dev/md5 /mnt/raid5 xfs defaults 0 0" >> /etc/fstab                   //开机自动挂载                                                              
+
+#mdadm --zero-superblock --force /dev/sd[b-c]1
+#mdadm /dev/md5 --add /dev/sdb1
+
+#umount /dev/md5                                                                                 // 卸载raid5
+#mdadm -S /dev/md5                                                                             //停止raid5
+#rm -rf /etc/mdadm.conf                                                                        //删除配置文件
+
+#mdadm -a /dev/md5 /dev/sdf1                                                              //
+#mdadm -G /dev/md5 -n 4                                                                      //增加一块硬盘
+#mdadm Ds >/etc/mdadm.conf
+
+yum install mdadm -y
+#分区
+fdisk /dev/sdc    #输入 n -->输入 p --> 输入 1 --> Enter -->Enter -- 输入 W 
+#创建raid5
+mdadm -C -v /dev/md5 -l 5 -n 4 -x 1 /dev/sd[b-f]1                            
+#格式化
+mkfs -t xfs -f /dev/md5                # -f 强制格式化
+#挂载
+#mkdir /mnt/raid5
+#mount /dev/md5 /mnt/raid5  
+#生成配置文件
+mdadm -Dsv > /etc/mdadm.conf                                        
+echo "/dev/md5 /mnt/raid5 xfs defaults 0 0" >> /etc/fstab
+
+#检查raid
+cat /proc/mdstat
+
+mdadm -D /dev/md5
+#模拟从损害环境
+mdadm /dev/md5 -f /dev/sdc1
+
+#模拟往raid中添加硬盘
+mdadm /dev/md5 --add /dev/sdc1  #模拟往raid中添加硬盘
+#移除损坏的磁盘
+mdadm /dev/md5 -r /dev/sdc1
+mdadm /dev/md5 -r /dev/sde1
+
+
+
+1. 请在代理环境下安装所需环境依赖组件
+
+yum install -y curl policycoreutils openssh-server openssh-clients
+
+systemctl enable sshd
+
+systemctl start sshd
+
+yum install -y postfix
+
+systemctl enable postfix
+
+systemctl start postfix
+
+firewall-cmd --permanent --add-service=http
+
+systemctl reload firewalld
+
+ 2. 安装gitlab安装包
+
+　　curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash
+
+　　#注意：如下载失败提示ca证书问题，请使用curl -k ...... 下载即可
+
+　　sudo yum install gitlab-ce
+
+ 3. 以上步骤完成后，及gitlab安装就完成了，接下来我们进行相关配置
+
+　　vim /etc/gitlab/gitlab.rb
+
+　　(1). 配置访问ip及端口或使用域名
+1，安装依赖服务
+
+sudo yum install -y curl policycoreutils-python openssh-server
+sudo systemctl enable sshd
+sudo systemctl start sshd
+sudo firewall-cmd --permanent --add-service=http
+sudo systemctl reload firewalld
+2，安装postfix发送通知邮件
+
+sudo yum install postfix
+sudo systemctl enable postfix
+sudo systemctl start postfix
+3，安装GitLab
+
+curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.rpm.sh | sudo bash   
+sudo EXTERNAL_URL="IP端口或域名" yum install -y gitlab-ee     
+--------------------- 
+作者：h_dong 
+来源：CSDN 
+原文：https://blog.csdn.net/u013147287/article/details/79219479 
+版权声明：本文为博主原创文章，转载请附上博文链接！
+
+
+wget https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7

@@ -1,16 +1,15 @@
-#!/bin/bash
-#SystemVersion:CentOS 6.5
-#判断变量是数字还是字符串
-#~ 是正则匹配操作符
-read -p 'please input :' DIR_DATE
-flag=`echo $DIR_DATE| awk '{print($0~/^[-]?([0-9])+[.]?([0-9])+$/)?"number":"string"}'`
-echo $flag
-if [ "$flag" = "number" ];then dir_date=$DIR_DATE ;else dir_date=$($DIR_DATE) ; fi
+####  SystemVersion:CentOS 6.5
++  判断变量是数字还是字符串
++  ~ 是正则匹配操作符
+      read -p 'please input :' DIR_DATE    
+      flag=`echo $DIR_DATE| awk '{print($0~/^[-]?([0-9])+[.]?([0-9])+$/)?"number":"string"}'`    
+      echo $flag    
+      if [ "$flag" = "number" ];then dir_date=$DIR_DATE ;else dir_date=$($DIR_DATE) ; fi    
 
-#匹配后多显示上下几行
-seq 10 |grep "5" -A 2      #匹配含有5的那一行再多往下显示2行，最后显示三行
-seq 10 |grep "5" -B 2      #匹配含有5的那一行再多往上显示2行，最后显示三行
-seq 10 |grep "5" -C 2      #匹配含有5的那一行再多往上，往下显示2行，最后显示五行
++  匹配后多显示上下几行
+     seq 10 |grep "5" -A 2      #匹配含有5的那一行再多往下显示2行，最后显示三行
+     seq 10 |grep "5" -B 2      #匹配含有5的那一行再多往上显示2行，最后显示三行
+     seq 10 |grep "5" -C 2      #匹配含有5的那一行再多往上，往下显示2行，最后显示五行
 
 #awk NR 为处理的第几行,NF 为列数
 #https://www.cnblogs.com/xudong-bupt/p/3721210.html
