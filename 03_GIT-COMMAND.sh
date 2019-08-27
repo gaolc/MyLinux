@@ -144,7 +144,8 @@ git push origin dev               #如果要推送其他分支，如dev
 
 #本地创建和远程分支对应的分支，使用git checkout -b branch-name origin/branchname，本地和远程分支的名称最好一致
 git checkout -b dev origin/dev    #基于远程dev分支创建dev分支
-
+#删除远程分支dev
+git push origin --delete dev
 
 #如果git pull提示“no tracking information”，则说明本地分支和远程分支的链接关系没有创建，用命令git branch --set-upstream branch-name origin/branch-name
 git pull                          #Unpacking objects
