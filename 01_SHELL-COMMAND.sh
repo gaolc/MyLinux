@@ -1,15 +1,15 @@
 ####  SystemVersion:CentOS 6.5
-+  判断变量是数字还是字符串
-+  ~ 是正则匹配操作符
-      read -p 'please input :' DIR_DATE    
-      flag=`echo $DIR_DATE| awk '{print($0~/^[-]?([0-9])+[.]?([0-9])+$/)?"number":"string"}'`    
-      echo $flag    
-      if [ "$flag" = "number" ];then dir_date=$DIR_DATE ;else dir_date=$($DIR_DATE) ; fi    
+#判断变量是数字还是字符串
+# ~ 是正则匹配操作符
+read -p 'please input :' DIR_DATE    
+flag=`echo $DIR_DATE| awk '{print($0~/^[-]?([0-9])+[.]?([0-9])+$/)?"number":"string"}'`    
+echo $flag    
+if [ "$flag" = "number" ];then dir_date=$DIR_DATE ;else dir_date=$($DIR_DATE) ; fi    
 
-+  匹配后多显示上下几行
-     seq 10 |grep "5" -A 2      #匹配含有5的那一行再多往下显示2行，最后显示三行
-     seq 10 |grep "5" -B 2      #匹配含有5的那一行再多往上显示2行，最后显示三行
-     seq 10 |grep "5" -C 2      #匹配含有5的那一行再多往上，往下显示2行，最后显示五行
+#匹配后多显示上下几行
+seq 10 |grep "5" -A 2      #匹配含有5的那一行再多往下显示2行，最后显示三行
+seq 10 |grep "5" -B 2      #匹配含有5的那一行再多往上显示2行，最后显示三行
+seq 10 |grep "5" -C 2      #匹配含有5的那一行再多往上，往下显示2行，最后显示五行
 
 #awk NR 为处理的第几行,NF 为列数
 #https://www.cnblogs.com/xudong-bupt/p/3721210.html
@@ -19,8 +19,6 @@ ls -ltr |awk '{print NR " " $6 " " NF }'
 #替换第9个字符到第19个字符之间的abc为xyz：
 echo "123abc456aababc789abcqweabcrtyabc" \
 |awk -F "" 'BEGIN { OFS="" } {for(i=9;i<=19;i++) if($i=="a" && $(i+1)=="b" && $(i+2)=="c"){$i="x";$(i+1)="y";$(i+2)="z"}print }'
-
-
 
 
 #获取本机上网络接口上可用的公网IP地址
