@@ -64,7 +64,8 @@ git tag -d <tagname>         #删除标签
 
 
 #合并和衍合
-git merge <branch>            #合并指定分支到当前分支
+git merge <branch>            #合并指定分支到当前分支(fast-farward merge)
+git merge --no-ff <branch>    #合并指定分支到当前分支(正常合并)
 git rebase <branch>           #衍和指定分支到当前分支
 
 
