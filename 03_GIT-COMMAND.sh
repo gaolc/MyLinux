@@ -52,6 +52,9 @@ git reset --hard HEAD        #撤销工作目录中所有未提交文件的修�
 git checkout HEAD <file>     #撤销指定的未提交文件的修改内容
 git revert <commit>          #撤销指定的提交
 
+#回退本地及远程
+git reset --hard <commit_id>
+git push origin HEAD --force
 
 #分支与标签
 git branch                   #显示所有本地分支
